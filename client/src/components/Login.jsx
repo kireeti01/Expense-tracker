@@ -1,45 +1,71 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import "./Login.css";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("password123");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
-    // After successful login, navigate to dashboard
-    navigate("/dashboard");
+    console.log("Login attempt:", { username, password });
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          placeholder="Email"
-          onChange={handleChange}
-          required
-        />
-        <br /><br />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          placeholder="Password"
-          onChange={handleChange}
-          required
-        />
-        <br /><br />
-        <button type="submit">Login</button>
-      </form>
+    <div className={`login-container ${isLoaded ? "loaded" : ""}`}>
+      <div className="background-animation"></div>
+      <div className="floating-shapes">
+        <div className="shape shape-1"></div>
+        <div className="shape shape-2"></div>
+        <div className="shape shape-3"></div>
+      </div>
+      
+      <div className={`login-card ${isLoaded ? "slide-up" : ""}`}>
+        <div className="card-header">
+          <h2 className="title">Expense Tracker</h2>
+          <p className="subtitle">Login in to continue</p>
+        </div>
+
+        <form onSubmit={handleLogin} className="login-form">
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="input-field"
+              required
+            />
+            <label className="input-label">Username</label>
+          </div>
+
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input-field"
+              required
+            />
+            <label className="input-label">Password</label>
+          </div>
+
+          {/* Changed from "Sign In" to "Login" */}
+          <button type="submit" className="login-button">
+            <span>Login</span>
+            <div className="button-shimmer"></div>
+          </button>
+        </form>
+
+        <div className="footer-text">
+          <p>Don't have an account? <a href="#">Register</a></p>
+        </div>
+      </div>
     </div>
   );
 };
