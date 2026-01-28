@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import "./register.css";
 
 const Register = () => {
@@ -7,7 +8,7 @@ const Register = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -50,9 +51,41 @@ const Register = () => {
     }
   };
 
+  // Framer Motion Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2, duration: 0.6 } },
+    exit: { opacity: 0, transition: { duration: 0.4 } },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.4 } },
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.05,
+      boxShadow: "0px 8px 15px rgba(102, 126, 234, 0.4)",
+      transition: { duration: 0.3, yoyo: Infinity },
+    },
+    tap: { scale: 0.95 },
+  };
+
   return (
-    <div className="registration-container">
-      <form className="registration-card" onSubmit={handleSubmit}>
+    <motion.div
+      className="registration-container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <motion.form
+        className="registration-card"
+        onSubmit={handleSubmit}
+        variants={cardVariants}
+      >
         <h2>Create Account</h2>
 
         <div className="form-group">
@@ -82,7 +115,10 @@ const Register = () => {
             placeholder="Password"
             onChange={handleChange}
           />
-          <span className="eye" onClick={() => setShowPassword(!showPassword)}>
+          <span
+            className="eye"
+            onClick={() => setShowPassword(!showPassword)}
+          >
             👁
           </span>
           <small>{errors.password}</small>
@@ -98,13 +134,20 @@ const Register = () => {
           <small>{errors.confirmPassword}</small>
         </div>
 
-        <button type="submit">Register</button>
+        <motion.button
+          type="submit"
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+        >
+          Register
+        </motion.button>
 
         <p>
           Already have an account? <Link to="/login">Login</Link>
         </p>
-      </form>
-    </div>
+      </motion.form>
+    </motion.div>
   );
 };
 
