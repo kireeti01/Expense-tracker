@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         id: '1',
         email,
         name: email.split('@')[0],
-        currency: 'USD',
+        currency: 'INR',  // Changed from USD to INR
         theme: 'light'
       }
       
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     const completeUserData = {
       ...userData,
       id: Date.now().toString(),
-      currency: 'USD',
+      currency: 'INR',  // Changed from USD to INR
       theme: 'light'
     }
     

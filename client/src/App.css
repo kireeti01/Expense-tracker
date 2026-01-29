@@ -205,4 +205,12 @@ a:hover {
   to {
     transform: rotate(360deg);
   }
+}/* Currency formatting for Indian Rupee */
+.inr-currency::before {
+  content: '₹';
+  margin-right: 2px;
+}
+
+.currency-inr {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
 }

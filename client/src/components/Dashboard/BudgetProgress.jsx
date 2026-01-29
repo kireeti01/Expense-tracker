@@ -1,7 +1,12 @@
 import React from 'react'
+import { useAuth } from '../../contexts/AuthContext'
+import { formatCurrency } from '../../utils/helpers'
 import './BudgetProgress.css'
 
 const BudgetProgress = ({ budgets }) => {
+  const { user } = useAuth()
+  const currency = user?.currency || 'INR'
+
   const getCategoryName = (categoryId) => {
     const categories = {
       '1': 'Food & Dining',
@@ -32,7 +37,9 @@ const BudgetProgress = ({ budgets }) => {
             <div key={budget.id} className="budget-item">
               <div className="budget-header">
                 <span className="budget-category">{getCategoryName(budget.categoryId)}</span>
-                <span className="budget-spent">${budget.spent.toFixed(2)} / ${budget.limit}</span>
+                <span className="budget-spent">
+                  {formatCurrency(budget.spent, currency)} / {formatCurrency(budget.limit, currency)}
+                </span>
               </div>
               <div className="progress-bar">
                 <div 

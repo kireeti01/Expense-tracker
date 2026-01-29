@@ -4,12 +4,13 @@ import { useAuth } from '../contexts/AuthContext'
 import { 
   TrendingUp, 
   TrendingDown, 
-  DollarSign, 
+  IndianRupee,
   PieChart as PieChartIcon
 } from 'lucide-react'
 import StatCard from '../components/Dashboard/StatCard'
 import RecentTransactions from '../components/Dashboard/RecentTransactions'
 import BudgetProgress from '../components/Dashboard/BudgetProgress'
+import { formatCurrency } from '../utils/helpers'
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -22,6 +23,8 @@ const Dashboard = () => {
   
   const monthlyBudget = budgets.find(b => b.categoryId === 'all')
   const budgetProgress = monthlyBudget ? (monthlyBudget.spent / monthlyBudget.limit) * 100 : 0
+
+  const currency = user?.currency || 'INR'
 
   return (
     <div className="dashboard">
@@ -36,15 +39,15 @@ const Dashboard = () => {
       <div className="stats-grid">
         <StatCard
           title="Total Balance"
-          value={`$${totals.balance.toFixed(2)}`}
-          icon={<DollarSign size={24} />}
+          value={formatCurrency(totals.balance, currency)}
+          icon={<IndianRupee size={24} />}
           trend={totals.balance > 0 ? 'up' : 'down'}
           trendValue={`${((totals.balance / totals.income) * 100).toFixed(1)}%`}
           color="primary"
         />
         <StatCard
           title="Total Income"
-          value={`$${totals.income.toFixed(2)}`}
+          value={formatCurrency(totals.income, currency)}
           icon={<TrendingUp size={24} />}
           trend="up"
           trendValue="This month"
@@ -52,7 +55,7 @@ const Dashboard = () => {
         />
         <StatCard
           title="Total Expenses"
-          value={`$${totals.expenses.toFixed(2)}`}
+          value={formatCurrency(totals.expenses, currency)}
           icon={<TrendingDown size={24} />}
           trend="down"
           trendValue="From budget"
@@ -87,7 +90,7 @@ const Dashboard = () => {
                 />
                 <span className="category-name">{category.name}</span>
               </div>
-              <span className="category-amount">${category.total.toFixed(2)}</span>
+              <span className="category-amount">{formatCurrency(category.total, currency)}</span>
             </div>
           ))}
         </div>

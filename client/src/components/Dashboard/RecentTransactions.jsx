@@ -1,15 +1,11 @@
 import React from 'react'
+import { useAuth } from '../../contexts/AuthContext'
+import { formatDate, formatCurrency } from '../../utils/helpers'
 import './RecentTransactions.css'
 
 const RecentTransactions = ({ transactions }) => {
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    }).format(date)
-  }
+  const { user } = useAuth()
+  const currency = user?.currency || 'INR'
 
   const getCategoryColor = (category) => {
     const colors = {
@@ -41,7 +37,7 @@ const RecentTransactions = ({ transactions }) => {
               </div>
             </div>
             <div className={`transaction-amount ${transaction.type}`}>
-              {transaction.type === 'income' ? '+' : '-'}${transaction.amount.toFixed(2)}
+              {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount, currency)}
             </div>
           </div>
         ))}
