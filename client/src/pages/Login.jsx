@@ -1,41 +1,29 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.jsx";
+import { motion } from "framer-motion";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    login(); // ✅ sets isAuthenticated = true
-    navigate('/dashboard');
+    login(email, password); // accepts anything
+    navigate("/dashboard");
   };
 
   return (
     <div
       className="app-container"
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
+      style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}
     >
-      <motion.div
-        className="card"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4 }}
-      >
+      <motion.div className="card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <h2>Login</h2>
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label>Email</label>
             <input
@@ -56,7 +44,7 @@ function Login() {
             />
           </div>
 
-          <button type="submit" className="btn">
+          <button type="submit" className="btn auth-btn">
             Login
           </button>
         </form>
